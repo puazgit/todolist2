@@ -1,6 +1,6 @@
 import app from '../firebase.config'
 
-import { getFirestore , collection , getDocs, addDoc, deleteDoc, doc, updateDoc } from 'firebase/firestore'
+import { getFirestore , collection , getDocs, addDoc, deleteDoc, doc, updateDoc, query, where } from 'firebase/firestore'
 
 const dbFirestore = getFirestore(app)
 const todoCollections = collection(dbFirestore, 'todos') // <--- nama collection yang dibuat di firebase
@@ -10,6 +10,12 @@ class TodoServices{
       return getDocs(todoCollections)
    }
 
+   getCompletedTodos(){
+      return getDocs(query(todoCollections, where('checked', '==', true)))
+   }
+   getImportantTodos(){
+      return getDocs(query(todoCollections, where('isImportant', '==', true)))
+   }
    insertTodo(todo){
       return addDoc(todoCollections, todo)
    }

@@ -1,6 +1,6 @@
 <template>
    <div class="container pl-3 text-light text-left m-2" :class="[todo.checked ? 'bg-primary' : 'bg-success']">
-      <input type="checkbox" v-model="todo.checked"><i class="bi bi-star-fill" v-show="todo.isImportant"></i>
+      <input type="checkbox" v-model="todo.checked" @click="$emit('update-checked', !todo.checked, todo.id)"><i class="bi bi-star-fill" v-show="todo.isImportant"></i>
        {{ firstCapitalized  }}
        <span class="badge badge-warning"><timeago :datetime="todo.created_at" :auto-update="60"></timeago></span>
        
@@ -19,7 +19,7 @@ export default({
    props :['todo'],
    data(){
       return{
-         // checked : false
+         checked : false
       }
    },
    methods :{

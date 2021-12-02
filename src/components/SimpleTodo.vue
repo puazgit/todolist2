@@ -1,36 +1,27 @@
 <template>
 <div class="container">
-   <!-- <form>
-  <div class="form-group">
-    <label for="exampleInputEmail1"><h1>Simple Todo</h1></label>
-    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-  </div>
-  <div class="form-group form-check">
-    <input type="checkbox" class="form-check-input" id="exampleCheck1">
-    <label class="form-check-label" for="exampleCheck1">Important</label>
-  </div>
-  <button type="submit" class="btn btn-primary">Submit</button>
-</form>
-   <br> -->
    <h1>Simple Todo</h1>
    <br>
    <div class="row align-items-start">
    <input type="text" v-model="newTodo.title" class="form-control">
+   <br>
+   <br>
    <button class="btn btn-info" @click="addTodoItem" v-if="!isEditMode">Tambah</button>
    <button class="btn btn-info" @click="updateTodoItem" v-else>Update</button>
+   <br>
    <br>
    <div class="col">
       <input type="checkbox" v-model="newTodo.isImportant"><label>&nbsp;Penting</label>
    <br>
-   <p v-show="newTodo.alertKosong" class="text-danger">Task tidak boleh kosong</p>
+   <p v-show="alertKosong" class="text-danger">Task tidak boleh kosong</p>
    <hr>
    <p></p>
    <ListTodo v-for="(item, i) in todos" 
    :key="i" 
    :todo="item" 
    v-on:hapus="hapus_item(item, i)"
-   @edit="editTodo(item, i)">
+   @edit="editTodo(item, i)"
+   @update-checked="updateChecked">
    </ListTodo>
         <Loading 
         :active.sync="isLoading"
@@ -87,6 +78,13 @@ export default {
       }
    },
    methods: {
+      updateChecked : function(isChecked, id){
+         const todo ={
+               checked : isChecked,
+               id : id
+            }
+         TodoService.updateTodo(todo)
+      },
       editTodo : function(item, index){
          // this.newTodo = {
          //       title : item.title,
