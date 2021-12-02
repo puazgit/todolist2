@@ -1,6 +1,6 @@
 <template>
 <div class="container">
-   <h1>Simple Todo</h1>
+   <h1>Simple Todo Purwakarta</h1>
    <br>
    <div class="row align-items-start">
    <input type="text" v-model="newTodo.title" class="form-control">
